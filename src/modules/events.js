@@ -9,10 +9,10 @@ window.onload = () => {
     });
 };
 
-window.addEventListener('click', e => {
-    if (e.target.classList.contains('unit')) {
-        const targetElem = e.target;
-        const activeElem = e.target.previousElementSibling === null? e.target.nextElementSibling: e.target.previousElementSibling;
-        switchUnit(targetElem, activeElem); 
-    }
-})
+// window.addEventListener('click', e => {
+//     if (e.target.classList.contains('unit')) {
+//         const targetElem = e.target;
+//         const activeElem = e.target.previousElementSibling === null? e.target.nextElementSibling: e.target.previousElementSibling;
+//         switchUnit(targetElem, activeElem); 
+//     }
+// })

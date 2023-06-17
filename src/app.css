@@ -21,7 +21,7 @@
 
 body {
     color: var(--font-color);
-    /* background-color: var(--background-color); */
+    background-color: var(--background-color);
     background-repeat: no-repeat;
     background-size: cover;
     font-size: var(--font-size);
@@ -216,14 +216,11 @@ input::placeholder {
     height: fit-content;
     width: 20%;
     margin: auto;
+    justify-self: flex-end;
 }
 
 .main-stat {
     margin: 0 auto 15px auto;
-}
-
-.stat-img {
-    justify-self: flex-end;
 }
 
 .break-line {

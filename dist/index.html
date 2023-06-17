@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odin Weather</title>
+</head>
+<body>
+    <div id="wrapper">
+        
+        <div id="search-div">
+            <i class="fa-solid fa-magnifying-glass nonclickable"></i>
+            <form action="" id="form">
+                <input type="text" id="search-input">
+            </form>
+        </div>
+
+        <div id="nav-container">
+            <button id="nav-toggle" class="nav-btn fa-solid fa-bars"></button>
+            
+            <nav class="navbar">
+                <ul class="nav-list">
+                    
+                    <li class="nav-item">
+                        <button class="nav-btn fa-solid fa-house-chimney"></button>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <button class="nav-btn fa-solid fa-chart-line"></button>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <button class="nav-btn fa-solid fa-star"></button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <main id="main">
+            <div id="location-container">
+                <h4 class="location-header" id="city-name"></h4>
+                <h4 class="location-header" id="region-name"></h4>
+            </div>
+
+            <div id="current-weather-container">
+                <h4 id="current-header">Current</h4>
+
+                <div id="info-main">
+                    <div id="temp-holder">
+                        <h4 id="temp-actual"></h4>
+                        <span id="unit-holder">
+                            <p class="unit hover active" id="c">C</p>
+                            <p class="unit hover inactive" id="f">F</p>
+                        </span>
+                    </div>
+
+                    <div class="stat-text">
+                        <p class="main-stat" id="wind"></p>
+                        <p class="main-stat" id="sky-condition"></p>
+                        <p class="main-stat" id="temp-feel"></p>
+                    </div>
+
+                    <div class="stat-img">
+                        <img src="" alt="" id="sky-condition-icon">
+                    </div>
+                </div>
+
+                <hr class="break-line"></hr>
+
+                <div id="info-extended">
+                    <span class="extended-stat-container">
+                        <p class="stat-name">Visibility</p>
+                        <p class="stat-name" id="visibility-value"></p>
+                    </span>
+
+                    <span class="extended-stat-container">
+                        <p class="stat-name">Relative Humidity</p>
+                        <p class="stat-name" id="humidity-value"></p>
+                    </span>
+
+                    <span class="extended-stat-container">
+                        <p class="stat-name">Gust</p>
+                        <p class="stat-name" id="gust-value"></p>
+                    </span>
+
+                    <span class="extended-stat-container">
+                        <p class="stat-name">Pressure</p>
+                        <p class="stat-name" id="pressure-value"></p>
+                    </span>
+
+                    <span class="extended-stat-container">
+                        <p class="stat-name">UV</p>
+                        <p class="stat-name" id="uv-value"></p>
+                    </span>
+
+                    <span class="extended-stat-container">
+                        <p class="stat-name">Sunrise</p>
+                        <p class="stat-name" id="sunrise-value"></p>
+                    </span>
+
+                    <span class="extended-stat-container">
+                        <p class="stat-name">Sunset</p>
+                        <p class="stat-name" id="sunset-value"></p>
+                    </span>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+    <script src="https://kit.fontawesome.com/25a7d4ef82.js" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>

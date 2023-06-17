@@ -76,7 +76,8 @@ function setBackground () {
         overcast: 'https://images.unsplash.com/photo-1416163347366-de4602bbb003?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80'
     };
 
-    document.body.style.backgroundImage = `url(${imgObj[document.getElementById('sky-condition').textContent.toLocaleLowerCase()]})`;
+    document.body.style.backgroundImage = `url(${imgObj.mist})`;
+    // document.body.style.backgroundImage = `url(${imgObj[document.getElementById('sky-condition').textContent.toLocaleLowerCase()]})`;
 };
 
 export { displayLocation, displayMainStats, setBackground, switchUnit }
