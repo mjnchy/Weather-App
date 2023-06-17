@@ -1,18 +1,12 @@
-import { getCurrentStats } from "./core";
-import { displayLocation, displayMainStats, setBackground, switchUnit } from "./dom";
+import { displayMainStats, switchUnits, } from "./dom";
 
 window.onload = () => {
-    getCurrentStats('okemos', (resolve) => {
-        displayLocation(resolve);
-        displayMainStats(resolve);
-        setBackground()
-    });
-};
+    displayMainStats('okemos');
+}
 
-// window.addEventListener('click', e => {
-//     if (e.target.classList.contains('unit')) {
-//         const targetElem = e.target;
-//         const activeElem = e.target.previousElementSibling === null? e.target.nextElementSibling: e.target.previousElementSibling;
-//         switchUnit(targetElem, activeElem); 
-//     }
-// })
+window.addEventListener('click', e => {
+    if (e.target.classList.contains('unit')) {
+        const current = e.target.nextElementSibling !== null?e.target.nextElementSibling: e.target.previousElementSibling;
+        switchUnits(e.target, current);
+    };
+})

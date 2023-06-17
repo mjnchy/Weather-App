@@ -1,16 +1,17 @@
-import { getSunStats } from "./core";
+import { getCurrentStats, getSunStats } from "./core";
+import { toggleClass, convert, } from "./manipulation";
 
-function getLocationElems () {
+const locationElems = (() => {
     return {
         city: document.getElementById('city-name'),
-        country: document.getElementById('region-name')
+        region: document.getElementById('region-name')
     };
-};
+})();
 
-function getCurrentStatElems () {
+const currentStatElems = (() => {
     return {
         temp: document.getElementById('temp-actual'),
-        tempFeel: document.getElementById('temp-feel'),
+        tempFeel: document.getElementById('temp-feel-value'),
         sky: document.getElementById('sky-condition'),
         skyIcon: document.getElementById('sky-condition-icon'),
         wind: document.getElementById('wind'),
@@ -22,51 +23,41 @@ function getCurrentStatElems () {
         sunrise: document.getElementById('sunrise-value'),
         sunset: document.getElementById('sunset-value')
     };
-};
+})();
 
-const currentElems = getCurrentStatElems();
-
-function displayLocation (resolution) {
-    const location = resolution.location;
-    const currentElems = getLocationElems();
-
-    currentElems.city.textContent = `${location.name}`;
-    currentElems.country.textContent = `${location.region}`;
-};
-
-function displayMainStats (resolution) {
-    const current = resolution.current;
-
-    const lat = resolution.location.lat;
-    const long = resolution.location.lon;
-
-    currentElems.temp.textContent = `${Math.round(current.temp_c)}`;
-    currentElems.tempFeel.textContent = `Feels like ${Math.round(current.feelslike_c)}`;
-
-    currentElems.sky.textContent = `${current.condition.text}`;
-    currentElems.skyIcon.src = `${current.condition.icon}`;
-
-    currentElems.wind.textContent = `${current.wind_mph} m/h`;
-    currentElems.visibility.textContent = `${current.vis_miles} miles`;
-
-    currentElems.humidity.textContent = `${current.humidity}%`;
-    currentElems.gust.textContent = `${current.gust_mph} mph`;
+async function displayMainStats (input) {
+    const weatherResults = await getCurrentStats(input);
+    const stats = await weatherResults.current;
+    const location = await weatherResults.location;
     
-    currentElems.pressure.textContent = `${current.pressure_in} in`;
-    currentElems.uv.textContent = `${current.uv}`;
+    const sun = await getSunStats(weatherResults.location.lat, weatherResults.location.lon);
+    const sunResults = await sun.results;
 
-    getSunStats(lat, long, (result) => {
-        currentElems.sunrise.textContent = `${result.results.sunrise.slice(0, 4)} ${result.results.sunrise.slice(-2)}`;
-        currentElems.sunset.textContent = `${result.results.sunset.slice(0, 4)} ${result.results.sunset.slice(-2)}`;
-    });
+    locationElems.city.textContent = `${location.name}`;
+    locationElems.region.textContent = `${location.region}`;
+    
+    currentStatElems.temp.textContent = `${Math.round(stats.temp_c)}`;
+    currentStatElems.tempFeel.textContent = ` ${Math.round(stats.feelslike_c)}`;
+
+    currentStatElems.sky.textContent = `${stats.condition.text}`;
+    currentStatElems.skyIcon.src = `${stats.condition.icon}`;
+
+    currentStatElems.wind.textContent = `${stats.wind_mph} m/h`;
+    currentStatElems.visibility.textContent = `${stats.vis_miles} miles`;
+
+    currentStatElems.humidity.textContent = `${stats.humidity}%`;
+    currentStatElems.gust.textContent = `${stats.gust_mph} mph`;
+    
+    currentStatElems.pressure.textContent = `${stats.pressure_in} in`;
+    currentStatElems.uv.textContent = `${stats.uv}`;
+
+    currentStatElems.sunrise.textContent = `${sunResults.sunrise.slice(0, 4)} ${sunResults.sunrise.slice(-2)}`;
+    currentStatElems.sunset.textContent = `${sunResults.sunset.slice(0, 4)} ${sunResults.sunset.slice(-2)}`;
 };
 
-function switchUnit (targetUnit, activeUnit) {
-    !targetUnit.classList.contains('active')? targetUnit.classList.toggle('active'): null
-    targetUnit.classList.contains('inactive')? targetUnit.classList.toggle('inactive'): null;
-
-    activeUnit.classList.contains('active')? activeUnit.classList.toggle('active'): null;
-    !activeUnit.classList.contains('inactive')? activeUnit.classList.toggle('inactive'): null;
+function switchUnits (targetUnit, currentUnit) {
+    toggleClass(targetUnit, currentUnit);
+    convert(targetUnit.id, currentUnit.id, [currentStatElems.temp, currentStatElems.tempFeel])
 };
 
 function setBackground () {
@@ -76,8 +67,7 @@ function setBackground () {
         overcast: 'https://images.unsplash.com/photo-1416163347366-de4602bbb003?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80'
     };
 
-    document.body.style.backgroundImage = `url(${imgObj.mist})`;
-    // document.body.style.backgroundImage = `url(${imgObj[document.getElementById('sky-condition').textContent.toLocaleLowerCase()]})`;
+    document.body.style.backgroundImage = `url(${imgObj[document.getElementById('sky-condition').textContent.toLocaleLowerCase()]})`;
 };
 
-export { displayLocation, displayMainStats, setBackground, switchUnit }
+export { displayMainStats, switchUnits };

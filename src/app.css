@@ -223,6 +223,12 @@ input::placeholder {
     margin: 0 auto 15px auto;
 }
 
+#feel-holder {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
 .break-line {
     height: 1px;
     background-color: var(--font-color);
