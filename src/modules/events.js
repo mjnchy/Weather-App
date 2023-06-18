@@ -1,12 +1,23 @@
-import { displayMainStats, switchUnits, } from "./dom";
+import { displayMainStats, setBackground, switchUnits, } from "./dom";
+import {} from "./eventFunctions";
 
 window.onload = () => {
-    displayMainStats('okemos');
-}
+    displayMainStats('okemos', () => {
+        setBackground();
+    });
+};
 
-window.addEventListener('click', e => {
-    if (e.target.classList.contains('unit')) {
-        const current = e.target.nextElementSibling !== null?e.target.nextElementSibling: e.target.previousElementSibling;
-        switchUnits(e.target, current);
-    };
-})
+// if (e.target.classList.contains('unit')) {
+    //     const current = 
+    //     e.target.nextElementSibling === null? e.target.previousElementSibling: e.target.nextElementSibling;
+    //     switchUnits(e.target, current);
+    // }
+    // switch (e.target.className) {
+    //     case 'unit':
+    //         const current = 
+    //         e.target.nextElementSibling === null? e.target.previousElementSibling: e.target.nextElementSibling;
+    //         console.log(e.target, current)
+    //         switchUnits(e.target, current);
+    //         break;
+    // }
+// )

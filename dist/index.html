@@ -50,8 +50,8 @@
                     <div id="temp-holder">
                         <h4 id="temp-actual"></h4>
                         <span id="unit-holder">
-                            <p class="unit hover active" id="c">C</p>
-                            <p class="unit hover inactive" id="f">F</p>
+                            <p class="unit hover active" data-unit="c">C</p>
+                            <p class="unit hover inactive" data-unit="f">F</p>
                         </span>
                     </div>
 
@@ -72,6 +72,16 @@
                 <hr class="break-line"></hr>
 
                 <div id="info-extended">
+                    <span class="extended-stat-container">
+                        <p class="stat-name">High</p>
+                        <p class="stat-name" id="max-temp-value" data-unit="c"></p>
+                    </span>
+                    
+                    <span class="extended-stat-container">
+                        <p class="stat-name">Low</p>
+                        <p class="stat-name" id="min-temp-value" data-unit="c"></p>
+                    </span>
+
                     <span class="extended-stat-container">
                         <p class="stat-name">Visibility</p>
                         <p class="stat-name" id="visibility-value"></p>
@@ -106,6 +116,10 @@
                         <p class="stat-name">Sunset</p>
                         <p class="stat-name" id="sunset-value"></p>
                     </span>
+                </div>
+
+                <div id="today-forecast">
+                    
                 </div>
             </div>
         </main>

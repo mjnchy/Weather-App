@@ -1,4 +1,4 @@
-import { getCurrentStats, getSunStats } from "./core";
+import { getStats, getSunStats } from "./core";
 import { toggleClass, convert, } from "./manipulation";
 
 const locationElems = (() => {
@@ -15,6 +15,8 @@ const currentStatElems = (() => {
         sky: document.getElementById('sky-condition'),
         skyIcon: document.getElementById('sky-condition-icon'),
         wind: document.getElementById('wind'),
+        max: document.getElementById('max-temp-value'),
+        min: document.getElementById('min-temp-value'),
         visibility: document.getElementById('visibility-value'),
         humidity: document.getElementById('humidity-value'),
         gust: document.getElementById('gust-value'),
@@ -25,39 +27,46 @@ const currentStatElems = (() => {
     };
 })();
 
-async function displayMainStats (input) {
-    const weatherResults = await getCurrentStats(input);
-    const stats = await weatherResults.current;
-    const location = await weatherResults.location;
+async function displayMainStats (input, callback) {
+    const weatherResults = await getStats(input);
     
-    const sun = await getSunStats(weatherResults.location.lat, weatherResults.location.lon);
-    const sunResults = await sun.results;
+    const currentStats = await weatherResults.current;
+    const location = await weatherResults.location;
+    const today = await weatherResults.forecast.forecastday[0];
 
     locationElems.city.textContent = `${location.name}`;
     locationElems.region.textContent = `${location.region}`;
     
-    currentStatElems.temp.textContent = `${Math.round(stats.temp_c)}`;
-    currentStatElems.tempFeel.textContent = ` ${Math.round(stats.feelslike_c)}`;
+    currentStatElems.temp.textContent = `${Math.round(currentStats.temp_c)}`;
+    currentStatElems.tempFeel.textContent = ` ${Math.round(currentStats.feelslike_c)}`;
 
-    currentStatElems.sky.textContent = `${stats.condition.text}`;
-    currentStatElems.skyIcon.src = `${stats.condition.icon}`;
-
-    currentStatElems.wind.textContent = `${stats.wind_mph} m/h`;
-    currentStatElems.visibility.textContent = `${stats.vis_miles} miles`;
-
-    currentStatElems.humidity.textContent = `${stats.humidity}%`;
-    currentStatElems.gust.textContent = `${stats.gust_mph} mph`;
+    currentStatElems.sky.textContent = `${currentStats.condition.text}`;
+    currentStatElems.skyIcon.src = `${currentStats.condition.icon}`;
+    currentStatElems.wind.textContent = `${currentStats.wind_mph} m/h`;
     
-    currentStatElems.pressure.textContent = `${stats.pressure_in} in`;
-    currentStatElems.uv.textContent = `${stats.uv}`;
+    currentStatElems.max.textContent = `${today.day.maxtemp_c} ${currentStatElems.max.dataset.unit.toLocaleUpperCase()}`;
+    currentStatElems.min.textContent = `${today.day.mintemp_c} ${currentStatElems.max.dataset.unit.toLocaleUpperCase()}`;
+    currentStatElems.visibility.textContent = `${currentStats.vis_miles} miles`;
 
-    currentStatElems.sunrise.textContent = `${sunResults.sunrise.slice(0, 4)} ${sunResults.sunrise.slice(-2)}`;
-    currentStatElems.sunset.textContent = `${sunResults.sunset.slice(0, 4)} ${sunResults.sunset.slice(-2)}`;
+    currentStatElems.humidity.textContent = `${currentStats.humidity}%`;
+    currentStatElems.gust.textContent = `${currentStats.gust_mph} mph`;   
+    currentStatElems.pressure.textContent = `${currentStats.pressure_in} in`;
+
+    currentStatElems.uv.textContent = `${currentStats.uv}`;
+
+    currentStatElems.sunrise.textContent = `${today.astro.sunrise}`;
+    currentStatElems.sunset.textContent = `${today.astro.sunset}`;
+
+    callback();
 };
 
 function switchUnits (targetUnit, currentUnit) {
-    toggleClass(targetUnit, currentUnit);
-    convert(targetUnit.id, currentUnit.id, [currentStatElems.temp, currentStatElems.tempFeel])
+    if (!targetUnit.classList.contains('active') && !currentUnit.classList.contains('inactive')) {
+        toggleClass(targetUnit, currentUnit);
+
+        convert(targetUnit, [currentStatElems.temp, currentStatElems.tempFeel,
+        currentStatElems.max, currentStatElems.min]);
+    };
 };
 
 function setBackground () {
@@ -66,8 +75,8 @@ function setBackground () {
         sunny: 'https://images.unsplash.com/photo-1547380109-a2fffd5b9036?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2271&q=80',
         overcast: 'https://images.unsplash.com/photo-1416163347366-de4602bbb003?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80'
     };
-
-    document.body.style.backgroundImage = `url(${imgObj[document.getElementById('sky-condition').textContent.toLocaleLowerCase()]})`;
+    document.body.style.backgroundImage = `url(${imgObj.mist})`
+    // document.body.style.backgroundImage = `url(${imgObj[currentStatElems.sky.textContent.toLocaleLowerCase()]})`;
 };
 
-export { displayMainStats, switchUnits };
+export { displayMainStats, switchUnits, setBackground };
