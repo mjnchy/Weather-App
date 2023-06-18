@@ -1,5 +1,5 @@
-import { displayMainStats, setBackground, switchUnits, } from "./dom";
-import {} from "./eventFunctions";
+import { displayMainStats, setBackground } from "./dom";
+import { event } from "./eventFunctions";
 
 window.onload = () => {
     displayMainStats('okemos', () => {
@@ -7,17 +7,4 @@ window.onload = () => {
     });
 };
 
-// if (e.target.classList.contains('unit')) {
-    //     const current = 
-    //     e.target.nextElementSibling === null? e.target.previousElementSibling: e.target.nextElementSibling;
-    //     switchUnits(e.target, current);
-    // }
-    // switch (e.target.className) {
-    //     case 'unit':
-    //         const current = 
-    //         e.target.nextElementSibling === null? e.target.previousElementSibling: e.target.nextElementSibling;
-    //         console.log(e.target, current)
-    //         switchUnits(e.target, current);
-    //         break;
-    // }
-// )
+window.addEventListener('click', event);

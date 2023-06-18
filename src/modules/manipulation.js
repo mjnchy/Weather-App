@@ -24,7 +24,13 @@ function convert (targetUnit, elements) {
 
     elements.forEach(element => {
         const value = parseInt(element.textContent.match(/\d+/g));
-        element.textContent = `${equations(value)[unit]}`;
+
+        if (element.dataset.unit) {
+            element.dataset.unit = unit;
+            element.textContent = `${equations(value)[unit]} ${element.dataset.unit.toLocaleUpperCase()}`;
+        }
+
+        else element.textContent = `${equations(value)[unit]}`;
     });
 };
 
