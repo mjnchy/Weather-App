@@ -1,9 +1,10 @@
-import { displayMainStats, setBackground } from "./dom";
+import { displayMainStats, displayTodayForeCast, setBackground } from "./dom";
 import { event } from "./eventFunctions";
 
 window.onload = () => {
-    displayMainStats('okemos', () => {
+    displayMainStats('okemos', (resolve) => {
         setBackground();
+        displayTodayForeCast(resolve);
     });
 };
 

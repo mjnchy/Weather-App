@@ -1,5 +1,8 @@
-import { getStats, getSunStats } from "./core";
+import { getStats } from "./core";
 import { toggleClass, convert, } from "./manipulation";
+import { createElem } from "./elements";
+
+let unit = () => document.querySelector('.unit.active').dataset.unit;
 
 const locationElems = (() => {
     return {
@@ -27,6 +30,10 @@ const currentStatElems = (() => {
     };
 })();
 
+const todayForecast = (() => {
+    return document.getElementById('today-forecast');
+})();
+
 async function displayMainStats (input, callback) {
     const weatherResults = await getStats(input);
     
@@ -37,15 +44,15 @@ async function displayMainStats (input, callback) {
     locationElems.city.textContent = `${location.name}`;
     locationElems.region.textContent = `${location.region}`;
     
-    currentStatElems.temp.textContent = `${Math.round(currentStats.temp_c)}`;
-    currentStatElems.tempFeel.textContent = ` ${Math.round(currentStats.feelslike_c)}`;
+    currentStatElems.temp.textContent = `${Math.round(currentStats[`temp_${unit()}`])}`;
+    currentStatElems.tempFeel.textContent = ` ${Math.round(currentStats[`feelslike_${unit()}`])}`;
 
     currentStatElems.sky.textContent = `${currentStats.condition.text}`;
     currentStatElems.skyIcon.src = `${currentStats.condition.icon}`;
     currentStatElems.wind.textContent = `${currentStats.wind_mph} m/h`;
     
-    currentStatElems.max.textContent = `${today.day.maxtemp_c} ${currentStatElems.max.dataset.unit.toLocaleUpperCase()}`;
-    currentStatElems.min.textContent = `${today.day.mintemp_c} ${currentStatElems.max.dataset.unit.toLocaleUpperCase()}`;
+    currentStatElems.max.textContent = `${Math.round(today.day[`maxtemp_${unit()}`])} ${unit().toLocaleUpperCase()}`;
+    currentStatElems.min.textContent = `${Math.round(today.day[`mintemp_${unit()}`])} ${unit().toLocaleUpperCase()}`;
     currentStatElems.visibility.textContent = `${currentStats.vis_miles} miles`;
 
     currentStatElems.humidity.textContent = `${currentStats.humidity}%`;
@@ -57,7 +64,42 @@ async function displayMainStats (input, callback) {
     currentStatElems.sunrise.textContent = `${today.astro.sunrise}`;
     currentStatElems.sunset.textContent = `${today.astro.sunset}`;
 
-    callback();
+    callback(weatherResults);
+};
+
+function displayTodayForeCast (resolve) {
+    const hours = new Date().getHours();
+    const forecasetHours = resolve.forecast.forecastday[0].hour.slice(-((resolve.forecast.forecastday[0].hour.length - 1) - hours));
+
+    forecasetHours.forEach(forecastHour => {
+        const span = createElem('span', `hour-${forecasetHours.indexOf(forecastHour)}`, ['hour-span']);
+        const time = createElem('p', undefined, ['hour-display']);
+        const img = createElem('img', undefined, ['hour-icon']);
+        const temp = createElem('p', undefined, ['hour-temp']);
+
+        const hour = forecastHour.time.slice(-5, -3);
+        
+        let ampm;
+        let localHour;
+
+        if (hour > 12) {
+            ampm = 'pm';
+            localHour = hour - 12;
+        }   else {
+            ampm = 'am';
+            localHour = hour;
+        };
+
+        time.textContent = `${localHour}:00 ${ampm}`
+        img.src = forecastHour.condition.icon;
+        temp.textContent = `${Math.round(forecastHour[`temp_${unit()}`])} ${unit().toLocaleUpperCase()}`;
+
+        span.append(time);
+        span.append(img);
+        span.append(temp);
+
+        todayForecast.append(span);
+    });
 };
 
 function switchUnits (targetUnit, currentUnit) {
@@ -79,4 +121,4 @@ function setBackground () {
     // document.body.style.backgroundImage = `url(${imgObj[currentStatElems.sky.textContent.toLocaleLowerCase()]})`;
 };
 
-export { displayMainStats, switchUnits, setBackground };
+export { displayMainStats, unit, displayTodayForeCast, switchUnits, setBackground };

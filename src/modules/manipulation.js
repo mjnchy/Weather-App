@@ -1,3 +1,5 @@
+import { unit } from "./dom";
+
 function toggleClass (target, current) {
     if (target.classList.contains('inactive') && !target.classList.contains('active')) {
         target.classList.toggle('active');
@@ -11,8 +13,6 @@ function toggleClass (target, current) {
 };
 
 function convert (targetUnit, elements) {
-    const unit = targetUnit.dataset.unit;
-
     function equations (value) {
         return {
             c: Math.round((value - 32) * 5/9),
@@ -25,12 +25,9 @@ function convert (targetUnit, elements) {
     elements.forEach(element => {
         const value = parseInt(element.textContent.match(/\d+/g));
 
-        if (element.dataset.unit) {
-            element.dataset.unit = unit;
-            element.textContent = `${equations(value)[unit]} ${element.dataset.unit.toLocaleUpperCase()}`;
-        }
-
-        else element.textContent = `${equations(value)[unit]}`;
+        element.textContent = element.dataset.unit? 
+        element.textContent = `${equations(value)[unit()]}`:
+        element.textContent = `${equations(value)[unit()]}`;
     });
 };
 

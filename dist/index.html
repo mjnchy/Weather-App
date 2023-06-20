@@ -74,12 +74,12 @@
                 <div id="info-extended">
                     <span class="extended-stat-container">
                         <p class="stat-name">High</p>
-                        <p class="stat-name" id="max-temp-value" data-unit="c"></p>
+                        <p class="stat-name" id="max-temp-value"></p>
                     </span>
                     
                     <span class="extended-stat-container">
                         <p class="stat-name">Low</p>
-                        <p class="stat-name" id="min-temp-value" data-unit="c"></p>
+                        <p class="stat-name" id="min-temp-value"></p>
                     </span>
 
                     <span class="extended-stat-container">
@@ -119,128 +119,11 @@
                 </div>
 
                 <div id="today-forecast">
-                    <span class="hour" id="hour-1" data-hour="1">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-1-icon"></i>
-                        <p class="hour-temp" id="hour-1-temp"></p>
+                    <span class="forecast-headers">
+                        <h4 id="today-forecast-time-header" class="forecast-header">Time</h4>
+                        <h4 id="today-forecast-condition-header" class="forecast-header">Condition</h4>
+                        <h4 id="today-forecast-temp-header" class="forecast-header">Temp</h4>
                     </span>
-                    
-                    <span class="hour" id="hour-2" data-hour="2">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-2-icon"></i>
-                        <p class="hour-temp" id="hour-2-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-3" data-hour="3">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-3-icon"></i>
-                        <p class="hour-temp" id="hour-3-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-4" data-hour="4">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-4-icon"></i>
-                        <p class="hour-temp" id="hour-4-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-5" data-hour="5">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-5-icon"></i>
-                        <p class="hour-temp" id="hour-5-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-6" data-hour="6">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-6-icon"></i>
-                        <p class="hour-temp" id="hour-6-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-7" data-hour="7">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-7-icon"></i>
-                        <p class="hour-temp" id="hour-7-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-8" data-hour="8">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-8-icon"></i>
-                        <p class="hour-temp" id="hour-8-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-9" data-hour="9">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-9-icon"></i>
-                        <p class="hour-temp" id="hour-9-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-10" data-hour="10">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-10-icon"></i>
-                        <p class="hour-temp" id="hour-10-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-11" data-hour="11">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-11-icon"></i>
-                        <p class="hour-temp" id="hour-11-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-12" data-hour="12">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-12-icon"></i>
-                        <p class="hour-temp" id="hour-12-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-13" data-hour="13">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-13-icon"></i>
-                        <p class="hour-temp" id="hour-13-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-14" data-hour="14">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-14-icon"></i>
-                        <p class="hour-temp" id="hour-14-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-15" data-hour="15">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-15-icon"></i>
-                        <p class="hour-temp" id="hour-15-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-16" data-hour="16">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-16-icon"></i>
-                        <p class="hour-temp" id="hour-16-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-17" data-hour="17">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-17-icon"></i>
-                        <p class="hour-temp" id="hour-17-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-18" data-hour="18">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-18-icon"></i>
-                        <p class="hour-temp" id="hour-18-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-19" data-hour="19">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-19-icon"></i>
-                        <p class="hour-temp" id="hour-19-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-20" data-hour="20">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-20-icon"></i>
-                        <p class="hour-temp" id="hour-20-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-21" data-hour="21">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-21-icon"></i>
-                        <p class="hour-temp" id="hour-21-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-22" data-hour="22">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-22-icon"></i>
-                        <p class="hour-temp" id="hour-22-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-23" data-hour="23">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-23-icon"></i>
-                        <p class="hour-temp" id="hour-23-temp"></p>
-                    </span>
-                    <span class="hour" id="hour-24" data-hour="24">
-                        <p class="display-hour"></p>
-                        <i class="hour-icon" id="hour-24-icon"></i>
-                        <p class="hour-temp" id="hour-24-temp"></p>
-                    </span>
-
                 </div>
             </div>
         </main>

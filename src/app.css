@@ -248,10 +248,27 @@ input::placeholder {
     line-height: 2.2;
 }
 
-#today-forecast > .hour {
+#today-forecast {
+    height: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--info-container-background);
+    overflow-y: scroll;
+}
+
+#today-forecast::-webkit-scrollbar {
+    display: none;
+}
+
+#today-forecast > .hour-span, #today-forecast > .forecast-headers {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     font-size: 1.9rem;
+}
+
+#today-forecast > .forecast-headers {
+    margin: 10px auto 20px;
 }
 
 @media (width <= 1275px) {
