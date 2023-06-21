@@ -42,34 +42,31 @@ function displayLocation (resolve) {
     locationElems.region.textContent = resolve.location.region;
 };
 
-function displayCurrentStats (resolve) {
-    const stats = resolve.current;
-    const forecast = resolve.forecast.forecastday[0];
-
-    currentStatElems.temp.textContent = Math.round(stats[`temp_${tempUnit}`]);
+function displayStats (time, forecast, obj) {
+    obj.temp? obj.temp.textContent = Math.round(time[`temp_${tempUnit}`]): null;
     
-    currentStatElems.wind.textContent = `${stats[`wind_${velocityUnit}`]} ${velocityUnit}`;
-    currentStatElems.sky.textContent = stats.condition.text;
-    currentStatElems.skyIcon.src = stats.condition.icon;
-    currentStatElems.tempFeel.textContent = Math.round(stats[`feelslike_${tempUnit}`]);
+    obj.wind? obj.wind.textContent = `${time[`wind_${velocityUnit}`]} ${velocityUnit}`: null;
+    obj.sky? obj.sky.textContent = time.condition.text: null;
+    obj.skyIcon? obj.skyIcon.src = time.condition.icon: null;
+    obj.tempFeel? obj.tempFeel.textContent = Math.round(time[`feelslike_${tempUnit}`]): null;
 
-    currentStatElems.max.textContent = `${Math.round(forecast.day[`maxtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`;
-    currentStatElems.min.textContent = `${Math.round(forecast.day[`mintemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`;
+    obj.max? obj.max.textContent = `${Math.round(forecast.day[`maxtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
+    obj.min? obj.min.textContent = `${Math.round(forecast.day[`mintemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
 
-    currentStatElems.visibility.textContent = `${stats[`vis_${distanceUnit}`]} ${distanceUnit}`;
-    currentStatElems.humidity.textContent = `${stats.humidity}%`;
-    currentStatElems.gust.textContent = `${stats[`gust_${velocityUnit}`]} ${velocityUnit}`;
+    obj.visibility? obj.visibility.textContent = `${time[`vis_${distanceUnit}`]} ${distanceUnit}`: null;
+    obj.humidity? obj.humidity.textContent = `${time.humidity}%`: null;
+    obj.gust? obj.gust.textContent = `${time[`gust_${velocityUnit}`]} ${velocityUnit}`: null;
     
-    currentStatElems.pressure.textContent = `${stats.pressure_in} in`;
-    currentStatElems.uv.textContent = stats.uv;
+    obj.pressure? obj.pressure.textContent = `${time.pressure_in} in`: null;
+    obj.uv? obj.uv.textContent = time.uv: null;
 
-    currentStatElems.sunrise.textContent = forecast.astro.sunrise;
-    currentStatElems.sunset.textContent = forecast.astro.sunset;
+    obj.sunrise? obj.sunrise.textContent = forecast.astro.sunrise: null;
+    obj.sunset? obj.sunset.textContent = forecast.astro.sunset: null;
 };
 
-function displayTodayForecast (resolve) {
+function displayForecast (day, fixHours) {
     const hour = new Date().getHours();
-    const allHours = resolve.forecast.forecastday[0].hour;
+    const allHours = day.hour;
     const forecastHours = allHours.slice(-(allHours.length - hour) + 1);
     const container = document.getElementById('today-forecast');
 
@@ -102,4 +99,4 @@ function displayTodayForecast (resolve) {
     });
 };
 
-export { displayLocation, displayCurrentStats, displayTodayForecast };
+export { displayLocation, displayStats, displayForecast, currentStatElems };

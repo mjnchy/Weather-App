@@ -183,7 +183,7 @@ input::placeholder {
 }
 
 #temp-actual {
-    font-size: clamp(2rem, 5vw, 15rem);
+    font-size: clamp(7rem, 4vw, 15rem);
     line-height: 1.5;
     height: fit-content;
     margin: auto;
@@ -247,7 +247,7 @@ input::placeholder {
     padding: 15% 10px;
 }
 
-.extended-stat-container {
+.extended-stat-container, .forecast-main-span {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -285,11 +285,21 @@ input::placeholder {
 /*  */
 
 #tmr-forecast-container {
-    grid-area: 2 / 4 / 9 / 8;
-    background-color: red;
+    grid-area: 2 / 5 / 9 / 8;
+    display: flex;
+    flex-direction: column;
 }
 
+#tmr-forecast-container > .forecast-header.active {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    margin-bottom: 10rem;
+}
 
+#tmr-forecast-main-container {
+    height: 40%;
+    padding: 20% 0 0;
+}
 
 
 
