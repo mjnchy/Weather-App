@@ -21,7 +21,7 @@
 
 body {
     color: var(--font-color);
-    /* background-color: var(--background-color); */
+    background-color: var(--background-color);
     background-repeat: no-repeat;
     background-size: cover;
     font-size: var(--font-size);
@@ -155,19 +155,23 @@ input::placeholder {
 /*  */
 
 #current-weather-container {
-    grid-area: 2 / 1 / 8 / 4;
+    grid-area: 2 / 1 / 9 / 4;
+    display: flex;
+    flex-direction: column;
     margin-left: 10px;
 }
 
 #current-header {
+    height: fit-content;
     font-size: 2.4rem;
 }
 
 #info-main {
     display: flex;
     height: fit-content;
+    width: clamp(325px, 100%, 390px);
+    margin: 50px auto 10px 10px;
     justify-content: space-between;
-    margin: 50px 10px 10px;
     gap: 20px;
 }
 
@@ -179,7 +183,7 @@ input::placeholder {
 }
 
 #temp-actual {
-    font-size: clamp(2rem, 6vw, 15rem);
+    font-size: clamp(2rem, 5vw, 15rem);
     line-height: 1.5;
     height: fit-content;
     margin: auto;
@@ -193,23 +197,23 @@ input::placeholder {
     margin: auto;
 }
 
-#unit-holder > .unit {
+#unit-holder > .temp-unit {
     font-size: 2.3rem;
     margin: 0;
 }
 
-.unit.active {
+.temp-unit.active {
     filter: brightness(500%);
 }
 
-.unit.inactive {
+.temp-unit.inactive {
     filter: brightness(90%);
 }
 
-.stat-text {
+.stat-text-container {
     height: fit-content;
     width: 60%;
-    margin-top: 7.5%;
+    margin-top: 10%;
 }
 
 .stat-img {
@@ -231,13 +235,16 @@ input::placeholder {
 
 .break-line {
     height: 1px;
+    width: clamp(325px, 100%, 390px);
+    margin-right: auto;
     background-color: var(--font-color);
 }
 
 #info-extended {
+    width: clamp(325px, 100%, 390px);
+    margin-right: auto;
     height: fit-content;
-    padding: 10px;
-    margin: 20% auto;
+    padding: 15% 10px;
 }
 
 .extended-stat-container {
@@ -249,7 +256,9 @@ input::placeholder {
 }
 
 #today-forecast {
-    height: 300px;
+    height: 50%;
+    width: clamp(325px, 100%, 390px);
+    margin-right: auto;
     padding: 10px;
     border-radius: 10px;
     background-color: var(--info-container-background);
@@ -271,12 +280,33 @@ input::placeholder {
     margin: 10px auto 20px;
 }
 
+/*  */
+/* Tomorrow Forecast Styles Begin Here */
+/*  */
+
+#tmr-forecast-container {
+    grid-area: 2 / 4 / 9 / 8;
+    background-color: red;
+}
+
+
+
+
+
 @media (width <= 1275px) {
     #location-container {
         grid-area: 1 / 1 / 2 / 5;
     }
 
     #current-weather-container {
-        grid-area: 2 / 1 / 8 / 6;
+        grid-area: 2 / 1 / 9 / 6;
+    }
+
+    .stat-text-container {
+        margin-top: 7.5%
+    }
+
+    #tmr-forecast-container {
+        grid-area: 2 / 7 / 9 / 19;
     }
 }

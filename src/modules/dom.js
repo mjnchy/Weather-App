@@ -1,8 +1,15 @@
-import { getStats } from "./core";
-import { toggleClass, convert, } from "./manipulation";
-import { createElem } from "./elements";
+import {createElem} from "./elements";
 
-let unit = () => document.querySelector('.unit.active').dataset.unit;
+const getUnits = (() => {
+    return {
+        temp: document.querySelector('.temp-unit.active').dataset.unit,
+        distance: document.querySelector('#wind').dataset.unit,
+    };
+})();
+
+const tempUnit = getUnits.temp;
+const distanceUnit = getUnits.distance;
+const velocityUnit = getUnits.distance === 'miles'? 'mph': 'kph';
 
 const locationElems = (() => {
     return {
@@ -30,95 +37,69 @@ const currentStatElems = (() => {
     };
 })();
 
-const todayForecast = (() => {
-    return document.getElementById('today-forecast');
-})();
-
-async function displayMainStats (input, callback) {
-    const weatherResults = await getStats(input);
-    
-    const currentStats = await weatherResults.current;
-    const location = await weatherResults.location;
-    const today = await weatherResults.forecast.forecastday[0];
-
-    locationElems.city.textContent = `${location.name}`;
-    locationElems.region.textContent = `${location.region}`;
-    
-    currentStatElems.temp.textContent = `${Math.round(currentStats[`temp_${unit()}`])}`;
-    currentStatElems.tempFeel.textContent = ` ${Math.round(currentStats[`feelslike_${unit()}`])}`;
-
-    currentStatElems.sky.textContent = `${currentStats.condition.text}`;
-    currentStatElems.skyIcon.src = `${currentStats.condition.icon}`;
-    currentStatElems.wind.textContent = `${currentStats.wind_mph} m/h`;
-    
-    currentStatElems.max.textContent = `${Math.round(today.day[`maxtemp_${unit()}`])} ${unit().toLocaleUpperCase()}`;
-    currentStatElems.min.textContent = `${Math.round(today.day[`mintemp_${unit()}`])} ${unit().toLocaleUpperCase()}`;
-    currentStatElems.visibility.textContent = `${currentStats.vis_miles} miles`;
-
-    currentStatElems.humidity.textContent = `${currentStats.humidity}%`;
-    currentStatElems.gust.textContent = `${currentStats.gust_mph} mph`;   
-    currentStatElems.pressure.textContent = `${currentStats.pressure_in} in`;
-
-    currentStatElems.uv.textContent = `${currentStats.uv}`;
-
-    currentStatElems.sunrise.textContent = `${today.astro.sunrise}`;
-    currentStatElems.sunset.textContent = `${today.astro.sunset}`;
-
-    callback(weatherResults);
+function displayLocation (resolve) {
+    locationElems.city.textContent = resolve.location.name;
+    locationElems.region.textContent = resolve.location.region;
 };
 
-function displayTodayForeCast (resolve) {
-    const hours = new Date().getHours();
-    const forecasetHours = resolve.forecast.forecastday[0].hour.slice(-((resolve.forecast.forecastday[0].hour.length - 1) - hours));
+function displayCurrentStats (resolve) {
+    const stats = resolve.current;
+    const forecast = resolve.forecast.forecastday[0];
 
-    forecasetHours.forEach(forecastHour => {
-        const span = createElem('span', `hour-${forecasetHours.indexOf(forecastHour)}`, ['hour-span']);
-        const time = createElem('p', undefined, ['hour-display']);
-        const img = createElem('img', undefined, ['hour-icon']);
-        const temp = createElem('p', undefined, ['hour-temp']);
+    currentStatElems.temp.textContent = Math.round(stats[`temp_${tempUnit}`]);
+    
+    currentStatElems.wind.textContent = `${stats[`wind_${velocityUnit}`]} ${velocityUnit}`;
+    currentStatElems.sky.textContent = stats.condition.text;
+    currentStatElems.skyIcon.src = stats.condition.icon;
+    currentStatElems.tempFeel.textContent = Math.round(stats[`feelslike_${tempUnit}`]);
 
-        const hour = forecastHour.time.slice(-5, -3);
-        
+    currentStatElems.max.textContent = `${Math.round(forecast.day[`maxtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`;
+    currentStatElems.min.textContent = `${Math.round(forecast.day[`mintemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`;
+
+    currentStatElems.visibility.textContent = `${stats[`vis_${distanceUnit}`]} ${distanceUnit}`;
+    currentStatElems.humidity.textContent = `${stats.humidity}%`;
+    currentStatElems.gust.textContent = `${stats[`gust_${velocityUnit}`]} ${velocityUnit}`;
+    
+    currentStatElems.pressure.textContent = `${stats.pressure_in} in`;
+    currentStatElems.uv.textContent = stats.uv;
+
+    currentStatElems.sunrise.textContent = forecast.astro.sunrise;
+    currentStatElems.sunset.textContent = forecast.astro.sunset;
+};
+
+function displayTodayForecast (resolve) {
+    const hour = new Date().getHours();
+    const allHours = resolve.forecast.forecastday[0].hour;
+    const forecastHours = allHours.slice(-(allHours.length - hour) + 1);
+    const container = document.getElementById('today-forecast');
+
+    forecastHours.forEach(hour => {
+        let givenHour = hour.time.slice(-5, -3);
         let ampm;
         let localHour;
 
-        if (hour > 12) {
+        if (givenHour > 12) {
+            localHour = givenHour - 12;
             ampm = 'pm';
-            localHour = hour - 12;
-        }   else {
+        }
+
+        else {
+            localHour = givenHour;
             ampm = 'am';
-            localHour = hour;
         };
 
-        time.textContent = `${localHour}:00 ${ampm}`
-        img.src = forecastHour.condition.icon;
-        temp.textContent = `${Math.round(forecastHour[`temp_${unit()}`])} ${unit().toLocaleUpperCase()}`;
+        const span = createElem('span', undefined, ['hour-span']);
+        const declaration = createElem('p', undefined, ['hour-p']);
+        const icon = createElem('img', undefined, ['hour-condition-icon']);
+        const temp = createElem('p', undefined, ['hour-temp']);
 
-        span.append(time);
-        span.append(img);
-        span.append(temp);
+        declaration.textContent = `${localHour} ${ampm.toLocaleUpperCase()}`;
+        icon.src = hour.condition.icon;
+        temp.textContent = `${Math.round(hour[`temp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`;
 
-        todayForecast.append(span);
+        span.append(declaration, icon, temp);
+        container.append(span);
     });
 };
 
-function switchUnits (targetUnit, currentUnit) {
-    if (!targetUnit.classList.contains('active') && !currentUnit.classList.contains('inactive')) {
-        toggleClass(targetUnit, currentUnit);
-
-        convert(targetUnit, [currentStatElems.temp, currentStatElems.tempFeel,
-        currentStatElems.max, currentStatElems.min]);
-    };
-};
-
-function setBackground () {
-    const imgObj = {
-        mist: `https://images.unsplash.com/photo-1461696114087-397271a7aedc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80`,
-        sunny: 'https://images.unsplash.com/photo-1547380109-a2fffd5b9036?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2271&q=80',
-        overcast: 'https://images.unsplash.com/photo-1416163347366-de4602bbb003?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80'
-    };
-    document.body.style.backgroundImage = `url(${imgObj.mist})`
-    // document.body.style.backgroundImage = `url(${imgObj[currentStatElems.sky.textContent.toLocaleLowerCase()]})`;
-};
-
-export { displayMainStats, unit, displayTodayForeCast, switchUnits, setBackground };
+export { displayLocation, displayCurrentStats, displayTodayForecast };
