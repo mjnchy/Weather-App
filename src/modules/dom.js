@@ -27,6 +27,7 @@ const currentStatElems = (() => {
         wind: document.getElementById('wind'),
         max: document.getElementById('max-temp-value'),
         min: document.getElementById('min-temp-value'),
+        avg: document.getElementById('avg-temp-value'),
         visibility: document.getElementById('visibility-value'),
         humidity: document.getElementById('humidity-value'),
         gust: document.getElementById('gust-value'),
@@ -34,6 +35,18 @@ const currentStatElems = (() => {
         uv: document.getElementById('uv-value'),
         sunrise: document.getElementById('sunrise-value'),
         sunset: document.getElementById('sunset-value')
+    };
+})();
+
+const tmrStatElems = (() => {
+    return {
+        sky: document.getElementById('tmr-condition-text'),
+        skyIcon: document.getElementById('tmr-condition-icon'),
+        max: document.getElementById('tmr-max-temp-value'),
+        min: document.getElementById('tmr-min-temp-value'),
+        humidity: document.getElementById('tmr-humidity-value'),
+        sunrise: document.getElementById('tmr-sunrise-value'),
+        sunset: document.getElementById('tmr-sunset-value')
     };
 })();
 
@@ -52,10 +65,14 @@ function displayStats (time, forecast, obj) {
 
     obj.max? obj.max.textContent = `${Math.round(forecast.day[`maxtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
     obj.min? obj.min.textContent = `${Math.round(forecast.day[`mintemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
+    obj.avg? obj.avg.textContent = `${Math.round(forecast.day[`avgtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
 
     obj.visibility? obj.visibility.textContent = `${time[`vis_${distanceUnit}`]} ${distanceUnit}`: null;
-    obj.humidity? obj.humidity.textContent = `${time.humidity}%`: null;
     obj.gust? obj.gust.textContent = `${time[`gust_${velocityUnit}`]} ${velocityUnit}`: null;
+
+    if(obj.humidity) {
+        obj.humidity.textContent = time.humidity? `${time.humidity}%`: `${time.avghumidity}%`;
+    };
     
     obj.pressure? obj.pressure.textContent = `${time.pressure_in} in`: null;
     obj.uv? obj.uv.textContent = time.uv: null;
@@ -64,16 +81,16 @@ function displayStats (time, forecast, obj) {
     obj.sunset? obj.sunset.textContent = forecast.astro.sunset: null;
 };
 
-function displayForecast (day, fixHours) {
+function displayForecast (day, fixHours, container) {
     const hour = new Date().getHours();
     const allHours = day.hour;
-    const forecastHours = allHours.slice(-(allHours.length - hour) + 1);
-    const container = document.getElementById('today-forecast');
+    const forecastHours = fixHours === true? allHours.slice(-(allHours.length - hour) + 1): allHours;
 
     forecastHours.forEach(hour => {
         let givenHour = hour.time.slice(-5, -3);
         let ampm;
         let localHour;
+        givenHour === `00`? givenHour = 12: null;
 
         if (givenHour > 12) {
             localHour = givenHour - 12;
@@ -99,4 +116,4 @@ function displayForecast (day, fixHours) {
     });
 };
 
-export { displayLocation, displayStats, displayForecast, currentStatElems };
+export { displayLocation, displayStats, displayForecast, currentStatElems, tmrStatElems };

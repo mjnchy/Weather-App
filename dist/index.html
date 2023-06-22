@@ -83,6 +83,11 @@
                     </span>
 
                     <span class="extended-stat-container">
+                        <p class="stat-name">Avg Temp</p>
+                        <p class="stat-name" id="avg-temp-value"></p>
+                    </span>
+
+                    <span class="extended-stat-container">
                         <p class="stat-name">Visibility</p>
                         <p class="stat-name" id="visibility-value"></p>
                     </span>
@@ -118,7 +123,7 @@
                     </span>
                 </div>
 
-                <div id="today-forecast">
+                <div id="today-forecast" class="forecast-hours-container">
                     <span class="forecast-headers">
                         <h4 id="today-forecast-time-header" class="forecast-header">Time</h4>
                         <h4 id="today-forecast-condition-header" class="forecast-header">Condition</h4>
@@ -127,9 +132,220 @@
                 </div>
             </div>
 
-            <div id="tmr-forecast-container">
-                
+            <div id="forecast-container-container">
+                <div class="forecast-holder">
+                    <h4 class="forecast-header active">Forecast</h4>
+                    <h4 class="forecast-header inactive">Insights</h4>
+                </div>
+
+                <div id="forecast-overview-container-1" class="overview-container">
+                    <div class="dec-container">
+                        <h4 id="tmr-declaration" class="forecast-declaration">Tomorrow</h4>
+                    </div>
+                    
+                    <div id="tmr-stat-container"  class="overview-stat-container">
+                        <div class="avg-temp-holder">
+                            <h4 id="tmr-avg-temp-value" class="avg-temp">35</h4>
+                            <h4 class="stat-name">Avg</h4>
+                        </div>
+
+                        <h4 class="max-temp forecast-stat">80</h4>
+                        <h4 class="min-temp forecast-stat">20</h4>
+
+                        <h4 class="sunrise forecast-stat">06:00 AM</h4>
+                        <h4 class="sunset forecast-stat">09:20 PM</h4>
+
+                        <div class="condition-holder">
+                            <img src="" alt="" class="condition-icon">
+                            <h4 class="condition-text">Sunny</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="forecast-overview-container-2" class="overview-container">
+                    <div class="dec-container">
+                        <h4 id="tmr-declaration" class="forecast-declaration">Tomorrow</h4>
+                    </div>
+
+                    <div id="tmr-stat-container"  class="overview-stat-container">
+                        <div class="avg-temp-holder">
+                            <h4 id="tmr-avg-temp-value" class="avg-temp"></h4>
+                            <h4 class="stat-name"></h4>
+                        </div>
+
+                        <h4 class="max-temp forecast-stat"></h4>
+                        <h4 class="min-temp forecast-stat"></h4>
+
+                        <h4 class="sunrise forecast-stat"></h4>
+                        <h4 class="sunset forecast-stat"></h4>
+
+                        <div class="condition-holder">
+                            <img src="" alt="" class="condition-icon">
+                            <h4 class="condition-text"></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="forecast-overview-container-3" class="overview-container">
+                    <div class="dec-container">
+                        <h4 id="tmr-declaration" class="forecast-declaration">Tomorrow</h4>
+                    </div>
+                    
+                    <div id="tmr-stat-container"  class="overview-stat-container">
+                        <div class="avg-temp-holder">
+                            <h4 id="tmr-avg-temp-value" class="avg-temp"></h4>
+                            <h4 class="stat-name"></h4>
+                        </div>
+
+                        <h4 class="max-temp forecast-stat"></h4>
+                        <h4 class="min-temp forecast-stat"></h4>
+
+                        <h4 class="sunrise forecast-stat"></h4>
+                        <h4 class="sunset forecast-stat"></h4>
+
+                        <div class="condition-holder">
+                            <img src="" alt="" class="condition-icon">
+                            <h4 class="condition-text"></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="forecast-overview-container-4" class="overview-container">
+                    <div class="dec-container">
+                        <h4 id="tmr-declaration" class="forecast-declaration">Tomorrow</h4>
+                    </div>
+                    
+                    <div id="tmr-stat-container"  class="overview-stat-container">
+                        <div class="avg-temp-holder">
+                            <h4 id="tmr-avg-temp-value" class="avg-temp"></h4>
+                            <h4 class="stat-name"></h4>
+                        </div>
+
+                        <h4 class="max-temp forecast-stat"></h4>
+                        <h4 class="min-temp forecast-stat"></h4>
+
+                        <h4 class="sunrise forecast-stat"></h4>
+                        <h4 class="sunset forecast-stat"></h4>
+
+                        <div class="condition-holder">
+                            <img src="" alt="" class="condition-icon">
+                            <h4 class="condition-text"></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="forecast-overview-container-5" class="overview-container">
+                    <div class="dec-container">
+                        <h4 id="tmr-declaration" class="forecast-declaration">Tomorrow</h4>
+                    </div>
+                    
+                    <div id="tmr-stat-container"  class="overview-stat-container">
+                        <div class="avg-temp-holder">
+                            <h4 id="tmr-avg-temp-value" class="avg-temp"></h4>
+                            <h4 class="stat-name"></h4>
+                        </div>
+
+                        <h4 class="max-temp forecast-stat"></h4>
+                        <h4 class="min-temp forecast-stat"></h4>
+
+                        <h4 class="sunrise forecast-stat"></h4>
+                        <h4 class="sunset forecast-stat"></h4>
+
+                        <div class="condition-holder">
+                            <img src="" alt="" class="condition-icon">
+                            <h4 class="condition-text"></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="forecast-overview-container-6" class="overview-container">
+                    <div class="dec-container">
+                        <h4 id="tmr-declaration" class="forecast-declaration">Tomorrow</h4>
+                    </div>
+                    
+                    <div id="tmr-stat-container"  class="overview-stat-container">
+                        <div class="avg-temp-holder">
+                            <h4 id="tmr-avg-temp-value" class="avg-temp"></h4>
+                            <h4 class="stat-name"></h4>
+                        </div>
+
+                        <h4 class="max-temp forecast-stat"></h4>
+                        <h4 class="min-temp forecast-stat"></h4>
+
+                        <h4 class="sunrise forecast-stat"></h4>
+                        <h4 class="sunset forecast-stat"></h4>
+
+                        <div class="condition-holder">
+                            <img src="" alt="" class="condition-icon">
+                            <h4 class="condition-text"></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="forecast-overview-container-7" class="overview-container">
+                    <div class="dec-container">
+                        <h4 id="tmr-declaration" class="forecast-declaration">Tomorrow</h4>
+                    </div>
+                    
+                    <div id="tmr-stat-container"  class="overview-stat-container">
+                        <div class="avg-temp-holder">
+                            <h4 id="tmr-avg-temp-value" class="avg-temp"></h4>
+                            <h4 class="stat-name"></h4>
+                        </div>
+
+                        <h4 class="max-temp forecast-stat"></h4>
+                        <h4 class="min-temp forecast-stat"></h4>
+
+                        <h4 class="sunrise forecast-stat"></h4>
+                        <h4 class="sunset forecast-stat"></h4>
+
+                        <div class="condition-holder">
+                            <img src="" alt="" class="condition-icon">
+                            <h4 class="condition-text"></h4>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
+                <!-- <div id="tmr-forecast-main-container">
+                    <span class="forecast-main-span">
+                        <p class="stat-name">Max Temp</p>
+                        <p class="stat-name" id="tmr-max-temp-value"></p>
+                    </span>
+                    
+                    <span class="forecast-main-span">
+                        <p class="stat-name">Min Temp</p>
+                        <p class="stat-name" id="tmr-min-temp-value"></p>
+                    </span>
+
+                    <span class="forecast-main-span">
+                        <p class="stat-name" id="tmr-condition-text"></p>
+                        <img src="" alt="" class="stat-name" id="tmr-condition-icon">
+                    </span>
+
+                    <span class="forecast-main-span">
+                        <p class="stat-name">Average Humidity</p>
+                        <p class="stat-name" id="tmr-humidity-value"></p>
+                    </span>
+
+                    <span class="forecast-main-span">
+                        <p class="stat-name">Sunrise</p>
+                        <p class="stat-name" id="tmr-sunrise-value"></p>
+                    </span>
+
+                    <span class="forecast-main-span">
+                        <p class="stat-name">Sunset</p>
+                        <p class="stat-name" id="tmr-sunset-value"></p>
+                    </span> -->
+
+                <!-- <div id="tmr-forecast-hours" class="forecast-hours-container">
+                    <span class="forecast-headers">
+                        <h4 id="tmr-forecast-time-header" class="forecast-header">Time</h4>
+                        <h4 id="tmr-forecast-condition-header" class="forecast-header">Condition</h4>
+                        <h4 id="tmr-forecast-temp-header" class="forecast-header">Temp</h4>
+                    </span>
+                </div> -->
         </main>
         
     </div>
