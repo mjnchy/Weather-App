@@ -38,47 +38,70 @@ const currentStatElems = (() => {
     };
 })();
 
-const tmrStatElems = (() => {
-    return {
-        sky: document.getElementById('tmr-condition-text'),
-        skyIcon: document.getElementById('tmr-condition-icon'),
-        max: document.getElementById('tmr-max-temp-value'),
-        min: document.getElementById('tmr-min-temp-value'),
-        humidity: document.getElementById('tmr-humidity-value'),
-        sunrise: document.getElementById('tmr-sunrise-value'),
-        sunset: document.getElementById('tmr-sunset-value')
-    };
-})();
-
 function displayLocation (resolve) {
     locationElems.city.textContent = resolve.location.name;
     locationElems.region.textContent = resolve.location.region;
 };
 
-function displayStats (time, forecast, obj) {
-    obj.temp? obj.temp.textContent = Math.round(time[`temp_${tempUnit}`]): null;
-    
-    obj.wind? obj.wind.textContent = `${time[`wind_${velocityUnit}`]} ${velocityUnit}`: null;
-    obj.sky? obj.sky.textContent = time.condition.text: null;
-    obj.skyIcon? obj.skyIcon.src = time.condition.icon: null;
-    obj.tempFeel? obj.tempFeel.textContent = Math.round(time[`feelslike_${tempUnit}`]): null;
+function createDayObj (dayIndex) {
+    const container = document.getElementById(`forecast-overview-container-${dayIndex}`);
 
-    obj.max? obj.max.textContent = `${Math.round(forecast.day[`maxtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
-    obj.min? obj.min.textContent = `${Math.round(forecast.day[`mintemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
-    obj.avg? obj.avg.textContent = `${Math.round(forecast.day[`avgtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
+    return {
+        avg: container.querySelector('.avg-temp'),
+        max: container.querySelector('.max-temp'),
+        min: container.querySelector('.min-temp'),
+        sunrise: container.querySelector('.sunrise'),
+        sunset: container.querySelector('.sunset'),
+        sky: container.querySelector('.condition-text'),
+        skyIcon: container.querySelector('.condition-icon')
+    };
+};
 
-    obj.visibility? obj.visibility.textContent = `${time[`vis_${distanceUnit}`]} ${distanceUnit}`: null;
-    obj.gust? obj.gust.textContent = `${time[`gust_${velocityUnit}`]} ${velocityUnit}`: null;
+function setstats (day, stats, obj) {
+    obj.temp? obj.temp.textContent = Math.round(stats[`temp_${tempUnit}`]): null;
+
+    obj.wind? obj.wind.textContent = `${stats[`wind_${velocityUnit}`]} ${velocityUnit}`: null;
+    obj.sky? obj.sky.textContent = stats.condition.text: null;
+    obj.skyIcon? obj.skyIcon.src = stats.condition.icon: null;
+    obj.tempFeel? obj.tempFeel.textContent = Math.round(stats[`feelslike_${tempUnit}`]): null;
+
+    obj.max? obj.max.textContent = `${Math.round(day.day[`maxtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
+    obj.min? obj.min.textContent = `${Math.round(day.day[`mintemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
+    obj.avg? obj.avg.textContent = `${Math.round(day.day[`avgtemp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`: null;
+
+    obj.visibility? obj.visibility.textContent = `${stats[`vis_${distanceUnit}`]} ${distanceUnit}`: null;
+    obj.gust? obj.gust.textContent = `${stats[`gust_${velocityUnit}`]} ${velocityUnit}`: null;
 
     if(obj.humidity) {
-        obj.humidity.textContent = time.humidity? `${time.humidity}%`: `${time.avghumidity}%`;
+        obj.humidity.textContent = stats.humidity? `${stats.humidity}%`: `${stats.avghumidity}%`;
     };
     
-    obj.pressure? obj.pressure.textContent = `${time.pressure_in} in`: null;
-    obj.uv? obj.uv.textContent = time.uv: null;
+    obj.pressure? obj.pressure.textContent = `${stats.pressure_in} in`: null;
+    obj.uv? obj.uv.textContent = stats.uv: null;
 
-    obj.sunrise? obj.sunrise.textContent = forecast.astro.sunrise: null;
-    obj.sunset? obj.sunset.textContent = forecast.astro.sunset: null;
+    obj.sunrise? obj.sunrise.textContent = day.astro.sunrise: null;
+    obj.sunset? obj.sunset.textContent = day.astro.sunset: null;
+};
+
+function displayStats (resolve, dayIndex) {
+    let day;
+    let stats;
+    let obj;
+
+    for (let i = 0; i <= dayIndex; i++) {
+        day = resolve.forecast.forecastday[i]
+        if (i === 0) {
+            stats = resolve.current;
+            obj = currentStatElems;
+            setstats(day, stats, obj);
+        }
+
+        else {
+            stats = resolve.forecast.forecastday[i].day;
+            obj = createDayObj(i);
+            setstats(day, stats, obj);
+        };
+    };
 };
 
 function displayForecast (day, fixHours, container) {
@@ -92,8 +115,8 @@ function displayForecast (day, fixHours, container) {
         let localHour;
         givenHour === `00`? givenHour = 12: null;
 
-        if (givenHour > 12) {
-            localHour = givenHour - 12;
+        if (givenHour >= 12) {
+            localHour = givenHour == 12? givenHour: givenHour - 12;
             ampm = 'pm';
         }
 
@@ -116,4 +139,4 @@ function displayForecast (day, fixHours, container) {
     });
 };
 
-export { displayLocation, displayStats, displayForecast, currentStatElems, tmrStatElems };
+export { displayLocation, displayStats, displayForecast, currentStatElems };
