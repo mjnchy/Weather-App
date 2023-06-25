@@ -10,6 +10,7 @@ const getUnits = (() => {
 const tempUnit = getUnits.temp;
 const distanceUnit = getUnits.distance;
 const velocityUnit = getUnits.distance === 'miles'? 'mph': 'kph';
+const velocityText = velocityUnit === 'mph'? 'm/h': 'k/h';
 
 const locationElems = (() => {
     return {
@@ -47,20 +48,33 @@ function createDayObj (dayIndex) {
     const container = document.getElementById(`forecast-overview-container-${dayIndex}`);
 
     return {
+        header: container.querySelector('.forecast-declaration'),
+        date: container.querySelector('.forecast-date'),
         avg: container.querySelector('.avg-temp'),
         max: container.querySelector('.max-temp'),
         min: container.querySelector('.min-temp'),
         sunrise: container.querySelector('.sunrise'),
         sunset: container.querySelector('.sunset'),
+        wind: container.querySelector('.avg-wind'),
+        rain: container.querySelector('.avg-chance-of-rain'),
         sky: container.querySelector('.condition-text'),
         skyIcon: container.querySelector('.condition-icon')
     };
 };
 
+
 function setstats (day, stats, obj) {
     obj.temp? obj.temp.textContent = Math.round(stats[`temp_${tempUnit}`]): null;
 
-    obj.wind? obj.wind.textContent = `${stats[`wind_${velocityUnit}`]} ${velocityUnit}`: null;
+    if (obj.wind) {
+        if (stats[`maxwind_${velocityUnit}`]) {
+            let totalWind = 0;
+            day.hour.forEach(int => totalWind += int[`wind_${velocityUnit}`]);
+
+            obj.wind.textContent = `${Math.round((totalWind / 24) * 10) / 10} ${velocityText}`;
+        }   else obj.wind.textContent = `${stats[`wind_${velocityUnit}`]} ${velocityText}`;
+    };
+    
     obj.sky? obj.sky.textContent = stats.condition.text: null;
     obj.skyIcon? obj.skyIcon.src = stats.condition.icon: null;
     obj.tempFeel? obj.tempFeel.textContent = Math.round(stats[`feelslike_${tempUnit}`]): null;
@@ -87,6 +101,7 @@ function displayStats (resolve, dayIndex) {
     let day;
     let stats;
     let obj;
+    let name_Of_Day;
 
     for (let i = 0; i <= dayIndex; i++) {
         day = resolve.forecast.forecastday[i]
@@ -99,6 +114,12 @@ function displayStats (resolve, dayIndex) {
         else {
             stats = resolve.forecast.forecastday[i].day;
             obj = createDayObj(i);
+
+            const dayObj = new Date(resolve.forecast.forecastday[i].date);
+            name_Of_Day = i === 1? 'Tomorrow': dayObj.toLocaleDateString('en-US', {weekday: 'long'});
+            
+            obj.header.textContent = name_Of_Day;
+            obj.date.textContent = dayObj.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})
             setstats(day, stats, obj);
         };
     };
