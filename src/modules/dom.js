@@ -39,11 +39,6 @@ const currentStatElems = (() => {
     };
 })();
 
-function displayLocation (resolve) {
-    locationElems.city.textContent = resolve.location.name;
-    locationElems.region.textContent = resolve.location.region;
-};
-
 function createDayObj (dayIndex) {
     const container = document.getElementById(`forecast-overview-container-${dayIndex}`);
 
@@ -58,10 +53,16 @@ function createDayObj (dayIndex) {
         wind: container.querySelector('.avg-wind'),
         rain: container.querySelector('.avg-chance-of-rain'),
         sky: container.querySelector('.condition-text'),
-        skyIcon: container.querySelector('.condition-icon')
+        skyIcon: container.querySelector('.condition-icon'),
+        humidity: container.querySelector('.avg-humidity'),
+        uv: container.querySelector('.uv')
     };
 };
 
+function displayLocation (resolve) {
+    locationElems.city.textContent = resolve.location.name;
+    locationElems.region.textContent = resolve.location.region;
+};
 
 function setstats (day, stats, obj) {
     obj.temp? obj.temp.textContent = Math.round(stats[`temp_${tempUnit}`]): null;
@@ -95,6 +96,8 @@ function setstats (day, stats, obj) {
 
     obj.sunrise? obj.sunrise.textContent = day.astro.sunrise: null;
     obj.sunset? obj.sunset.textContent = day.astro.sunset: null;
+
+    obj.rain? obj.rain.textContent = `${stats.daily_chance_of_rain}%`: null;
 };
 
 function displayStats (resolve, dayIndex) {
