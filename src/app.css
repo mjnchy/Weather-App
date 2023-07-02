@@ -133,19 +133,6 @@ input::placeholder {
     line-height: 1.5;
 }
 
-.forecast-hours-container {
-    height: 50%;
-    width: clamp(325px, 100%, 390px);
-    padding: 10px;
-    border-radius: 10px;
-    /* background-color: var(--info-container-background); */
-    overflow-y: scroll;
-}
-
-.forecast-hours-container::-webkit-scrollbar {
-    display: none;
-}
-
 .forecast-elem {
     padding: 5px 0;
     width: 70px;
@@ -279,6 +266,19 @@ input::placeholder {
     line-height: 2.2;
 }
 
+.forecast-hours-container {
+    height: 50%;
+    width: clamp(325px, 100%, 390px);
+    padding: 10px;
+    border-radius: 10px;
+    /* background-color: var(--info-container-background); */
+    overflow-y: scroll;
+}
+
+.forecast-hours-container::-webkit-scrollbar {
+    display: none;
+}
+
 #today-forecast {
     margin-right: auto;
 }
@@ -385,12 +385,53 @@ input::placeholder {
     grid-area: 3 / 1 / 4 / 6;
 }
 
-.forecast-breakdown {
+.forecast-breakdown-container {
+    position: relative;
     grid-area: 4 / 1 / 16 / 6;
+}
+
+.forecast-breakdown {
+    height: 100%;
+    width: calc(100% - 70px);
+    margin: auto;
     overflow: scroll;
 }
 
 .forecast-breakdown::-webkit-scrollbar {
+    display: none;
+}
+
+.forecast-nav-btn {
+    position: absolute;
+    color: var(--font-color);
+    width: 20px;
+    height: 40px;
+    background-color: transparent;
+    font-size: var(--header-size);
+    top: calc(50% - 25px);
+}
+
+#forecast-breakdown-1.active ~ #prev-forecast-btn{
+    display: none;
+}
+
+#forecast-breakdown-2.active ~ #next-forecast-btn {
+    display: none;
+}
+
+.forecast-nav-btn:hover {
+    cursor: pointer;
+}
+
+#prev-forecast-btn {
+    left: -5px;
+}
+
+#next-forecast-btn {
+    right: -5px;
+}
+
+.forecast-breakdown.inactive {
     display: none;
 }
 

@@ -128,6 +128,57 @@ function displayStats (resolve, dayIndex) {
     };
 };
 
+// function displayForecast (day, fixHours, container, showDetailed = false) {
+//     const hour = new Date().getHours();
+//     const allHours = day.hour;
+//     const forecastHours = fixHours === true? allHours.slice(-(allHours.length - hour) + 1): allHours;
+
+//     forecastHours.forEach(hour => {
+//         let givenHour = hour.time.slice(-5, -3);
+//         let ampm;
+//         let localHour;
+        
+//         if (givenHour == 0) {
+//             localHour = 12;
+//             ampm = 'am';
+//         }
+
+//         else if (givenHour >= 12) {
+//             localHour = givenHour == 12? givenHour: givenHour - 12;
+//             ampm = 'pm';
+//         }
+
+//         else {
+//             localHour = givenHour;
+//             ampm = 'am';
+//         };
+
+//         const span = createElem('span', undefined, ['hour-span', 'forecast-elem-container']);
+//         const declaration = createElem('p', undefined, ['hour-p', 'forecast-elem']);
+//         const icon = createElem('img', undefined, ['hour-condition-icon', 'forecast-elem']);
+//         const temp = createElem('p', undefined, ['hour-temp', 'forecast-elem']);
+//         const breakLine = createElem('hr', undefined, ['break-line'])
+
+//         declaration.textContent = `${localHour} ${ampm.toLocaleUpperCase()}`;
+//         icon.src = hour.condition.icon;
+//         temp.textContent = `${Math.round(hour[`temp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`;
+
+//         span.append(declaration, icon, temp);
+
+//         if (showDetailed === true) {
+//             const chance_of_rain = createElem('p', undefined, ['rain-chance', 'forecast-elem']);
+//             const wind = createElem('p', undefined, ['wind', 'forecast-elem']);
+
+//             chance_of_rain.textContent = `${hour.chance_of_rain}%`;
+//             wind.textContent = `${hour[`wind_${velocityUnit}`]} ${velocityText}`;
+//             span.insertBefore(chance_of_rain, icon);
+//             span.insertBefore(wind, chance_of_rain);
+//         };
+
+//         container.append(span, breakLine);
+//     });
+// };
+
 function displayForecast (resolve, dayIndex, daysToFix, showDetailed, containers) {
     const hour = new Date().getHours();
 
@@ -180,7 +231,7 @@ function displayForecast (resolve, dayIndex, daysToFix, showDetailed, containers
     
             containers[i].append(span, breakLine);
         });
-    }
+    };
 };
 
 export { displayLocation, displayStats, displayForecast, currentStatElems };
