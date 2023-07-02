@@ -6,16 +6,9 @@ import { displayStats, displayLocation, displayForecast } from "./dom";
 window.onload = () => {
     getStats('lansing', resolve => {
         displayLocation(resolve);
-        displayStats(resolve, 7);
-        displayForecast(resolve.forecast.forecastday[0], true, document.getElementById('today-forecast'));
-        // displayStats(resolve, 1);
-        // displayStats(resolve, 2);
-        // displayStats(resolve, 3);
-        // displayStats(resolve, 4);
-        // displayStats(resolve, 5);
-        // displayStats(resolve, 6);
-        // displayStats(resolve, 7);
-    })
+        displayStats(resolve, 2);
+        displayForecast(resolve, 1, [0], [1], [document.getElementById('today-forecast'), document.querySelector('.forecast-breakdown-1')])
+    });
 };
 
 // window.addEventListener('click', event);
