@@ -2,14 +2,14 @@ import {createElem} from "./elements";
 
 const getUnits = (() => {
     return {
-        temp: document.querySelector('.temp-unit.active').dataset.unit,
-        distance: document.querySelector('#wind').dataset.unit,
+        temp: () => document.querySelector('.temp-unit.active').dataset.unit,
+        distance: () => document.querySelector('#wind').dataset.unit,
     };
 })();
 
-const tempUnit = getUnits.temp;
-const distanceUnit = getUnits.distance;
-const velocityUnit = getUnits.distance === 'miles'? 'mph': 'kph';
+let tempUnit = getUnits.temp();
+let distanceUnit = getUnits.distance();
+const velocityUnit = getUnits.distance() === 'miles'? 'mph': 'kph';
 const velocityText = velocityUnit === 'mph'? 'm/h': 'k/h';
 
 const locationElems = (() => {
@@ -39,6 +39,10 @@ const currentStatElems = (() => {
     };
 })();
 
+function setTempUnit () {
+    tempUnit = getUnits.temp();
+};
+
 function createDayObj (dayIndex) {
     const container = document.getElementById(`forecast-overview-container-${dayIndex}`);
 
@@ -61,7 +65,8 @@ function createDayObj (dayIndex) {
 
 function displayLocation (resolve) {
     locationElems.city.textContent = resolve.location.name;
-    locationElems.region.textContent = resolve.location.region;
+    locationElems.region.textContent = resolve.location.region.split(' ').length < 2?
+    resolve.location.region: resolve.location.country;
 };
 
 function setstats (day, stats, obj) {
@@ -117,8 +122,9 @@ function displayStats (resolve, dayIndex) {
         else {
             stats = resolve.forecast.forecastday[i].day;
             obj = createDayObj(i);
-
-            const dayObj = new Date(resolve.forecast.forecastday[i].date);
+            
+            const dateSrc = resolve.forecast.forecastday[i].date;
+            const dayObj = new Date(`${dateSrc.slice(5, 7)}-${dateSrc.slice(8, 10)}-${dateSrc.slice(0, 4)}`);
             name_Of_Day = i === 1? 'Tomorrow': dayObj.toLocaleDateString('en-US', {weekday: 'long'});
             
             obj.header.textContent = name_Of_Day;
@@ -127,57 +133,6 @@ function displayStats (resolve, dayIndex) {
         };
     };
 };
-
-// function displayForecast (day, fixHours, container, showDetailed = false) {
-//     const hour = new Date().getHours();
-//     const allHours = day.hour;
-//     const forecastHours = fixHours === true? allHours.slice(-(allHours.length - hour) + 1): allHours;
-
-//     forecastHours.forEach(hour => {
-//         let givenHour = hour.time.slice(-5, -3);
-//         let ampm;
-//         let localHour;
-        
-//         if (givenHour == 0) {
-//             localHour = 12;
-//             ampm = 'am';
-//         }
-
-//         else if (givenHour >= 12) {
-//             localHour = givenHour == 12? givenHour: givenHour - 12;
-//             ampm = 'pm';
-//         }
-
-//         else {
-//             localHour = givenHour;
-//             ampm = 'am';
-//         };
-
-//         const span = createElem('span', undefined, ['hour-span', 'forecast-elem-container']);
-//         const declaration = createElem('p', undefined, ['hour-p', 'forecast-elem']);
-//         const icon = createElem('img', undefined, ['hour-condition-icon', 'forecast-elem']);
-//         const temp = createElem('p', undefined, ['hour-temp', 'forecast-elem']);
-//         const breakLine = createElem('hr', undefined, ['break-line'])
-
-//         declaration.textContent = `${localHour} ${ampm.toLocaleUpperCase()}`;
-//         icon.src = hour.condition.icon;
-//         temp.textContent = `${Math.round(hour[`temp_${tempUnit}`])} ${tempUnit.toLocaleUpperCase()}`;
-
-//         span.append(declaration, icon, temp);
-
-//         if (showDetailed === true) {
-//             const chance_of_rain = createElem('p', undefined, ['rain-chance', 'forecast-elem']);
-//             const wind = createElem('p', undefined, ['wind', 'forecast-elem']);
-
-//             chance_of_rain.textContent = `${hour.chance_of_rain}%`;
-//             wind.textContent = `${hour[`wind_${velocityUnit}`]} ${velocityText}`;
-//             span.insertBefore(chance_of_rain, icon);
-//             span.insertBefore(wind, chance_of_rain);
-//         };
-
-//         container.append(span, breakLine);
-//     });
-// };
 
 function displayForecast (resolve, dayIndex, daysToFix, showDetailed, containers) {
     const hour = new Date().getHours();
@@ -210,7 +165,7 @@ function displayForecast (resolve, dayIndex, daysToFix, showDetailed, containers
             const span = createElem('span', undefined, ['hour-span', 'forecast-elem-container']);
             const declaration = createElem('p', undefined, ['hour-p', 'forecast-elem']);
             const icon = createElem('img', undefined, ['hour-condition-icon', 'forecast-elem']);
-            const temp = createElem('p', undefined, ['hour-temp', 'forecast-elem']);
+            const temp = createElem('p', undefined, ['is-temp', 'hour-temp', 'forecast-elem']);
             const breakLine = createElem('hr', undefined, ['break-line'])
     
             declaration.textContent = `${localHour} ${ampm.toLocaleUpperCase()}`;
@@ -234,4 +189,4 @@ function displayForecast (resolve, dayIndex, daysToFix, showDetailed, containers
     };
 };
 
-export { displayLocation, displayStats, displayForecast, currentStatElems };
+export { tempUnit, setTempUnit, displayLocation, displayStats, displayForecast, currentStatElems };

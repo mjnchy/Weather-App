@@ -25,6 +25,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     font-size: var(--font-size);
+    overflow: hidden;
 }
 
 ul {
@@ -388,13 +389,17 @@ input::placeholder {
 .forecast-breakdown-container {
     position: relative;
     grid-area: 4 / 1 / 16 / 6;
+    overflow: hidden;
 }
 
 .forecast-breakdown {
+    position: absolute;
     height: 100%;
     width: calc(100% - 70px);
     margin: auto;
+    inset: 0;
     overflow: scroll;
+    transition: ease-in-out, 250ms;
 }
 
 .forecast-breakdown::-webkit-scrollbar {
@@ -431,8 +436,12 @@ input::placeholder {
     right: -5px;
 }
 
-.forecast-breakdown.inactive {
-    display: none;
+.forecast-breakdown.next-forecast {
+    transform: translateX(105%);
+}
+
+.forecast-breakdown.prev-forecast {
+    transform: translateX(-105%);
 }
 
 @media (width <= 1275px) {

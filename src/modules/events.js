@@ -1,15 +1,10 @@
-import {getStats} from "./core";
-import { displayStats, displayLocation, displayForecast } from "./dom";
+import { event, loadPage, loadStats } from "./eventFunctions";
 
-// import { event } from "./eventFunctions";
+window.onload = loadStats('okemos');
 
-window.onload = () => {
-    getStats('lansing', resolve => {
-        displayLocation(resolve);
-        displayStats(resolve, 2);
-        displayForecast(resolve, 1, [0], [2], [document.getElementById('today-forecast'), document.getElementById('forecast-breakdown-1'),
-    document.getElementById('forecast-breakdown-2')]);
-    });
-};
+document.getElementById('form').addEventListener('submit', e => {
+    e.preventDefault();
+    loadPage();
+});
 
-// window.addEventListener('click', event);
+window.addEventListener('click', event);

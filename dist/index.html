@@ -48,7 +48,7 @@
 
                 <div id="info-main">
                     <div id="temp-holder">
-                        <h4 id="temp-actual"></h4>
+                        <h4 id="temp-actual" class="is-temp"></h4>
                         <span id="unit-holder">
                             <p class="temp-unit hover active" data-unit="c">C</p>
                             <p class="temp-unit hover inactive" data-unit="f">F</p>
@@ -60,7 +60,7 @@
                         <p class="main-stat" id="sky-condition"></p>
                         <span class="main-stat" id="feel-holder">
                             <p id="temp-feel-dec">Feels like</p>
-                            <p id="temp-feel-value"></p>
+                            <p id="temp-feel-value" class="is-temp"></p>
                         </span>
                     </div>
 
@@ -74,17 +74,17 @@
                 <div id="info-extended">
                     <span class="extended-stat-container">
                         <p class="stat-name">High</p>
-                        <p class="stat-name" id="max-temp-value"></p>
+                        <p class="stat-name is-temp" id="max-temp-value"></p>
                     </span>
                     
                     <span class="extended-stat-container">
                         <p class="stat-name">Low</p>
-                        <p class="stat-name" id="min-temp-value"></p>
+                        <p class="stat-name is-temp" id="min-temp-value"></p>
                     </span>
 
                     <span class="extended-stat-container">
                         <p class="stat-name">Avg Temp</p>
-                        <p class="stat-name" id="avg-temp-value"></p>
+                        <p class="stat-name is-temp" id="avg-temp-value"></p>
                     </span>
 
                     <span class="extended-stat-container">
@@ -146,19 +146,19 @@
                     
                     <div class="overview-stat-container">
                         <div class="avg-temp-holder">
-                            <h4 class="avg-temp"></h4>
+                            <h4 class="avg-temp is-temp"></h4>
                             <h4 class="stat-name">Avg</h4>
                         </div>
 
                         <div class="overview-stat-span-container">
                             <span class="overview-stat-span">
                                 <p class="stat-name">Max</p>
-                                <p class="stat-name max-temp"></p>
+                                <p class="stat-name is-temp max-temp"></p>
                             </span>
                             
                             <span class="overview-stat-span">
                                 <p class="stat-name">Min</p>
-                                <p class="stat-name min-temp"></p>
+                                <p class="stat-name is-temp min-temp"></p>
                             </span>
 
                             <span class="overview-stat-span">
@@ -207,19 +207,19 @@
                     
                     <div class="overview-stat-container">
                         <div class="avg-temp-holder">
-                            <h4 class="avg-temp"></h4>
+                            <h4 class="avg-temp is-temp"></h4>
                             <h4 class="stat-name">Avg</h4>
                         </div>
 
                         <div class="overview-stat-span-container">
                             <span class="overview-stat-span">
                                 <p class="stat-name">Max</p>
-                                <p class="stat-name max-temp"></p>
+                                <p class="stat-name is-temp max-temp"></p>
                             </span>
                             
                             <span class="overview-stat-span">
                                 <p class="stat-name">Min</p>
-                                <p class="stat-name min-temp"></p>
+                                <p class="stat-name is-temp min-temp"></p>
                             </span>
 
                             <span class="overview-stat-span">
@@ -279,7 +279,7 @@
 
                 <div class="forecast-breakdown-container">
                     <div id="forecast-breakdown-1" class="forecast-breakdown active"></div>
-                    <div id="forecast-breakdown-2" class="forecast-breakdown inactive"></div>
+                    <div id="forecast-breakdown-2" class="forecast-breakdown next-forecast "></div>
                     <button id="prev-forecast-btn" class="forecast-nav-btn fa-solid fa-angle-left"></button>
                     <button id="next-forecast-btn" class="forecast-nav-btn fa-solid fa-angle-right"></button>
                 </div>
