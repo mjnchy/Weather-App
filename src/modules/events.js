@@ -1,6 +1,6 @@
-import { event, loadPage, loadStats } from "./eventFunctions";
+import { event, loadDefault, loadPage } from "./eventFunctions";
 
-window.onload = loadStats('okemos');
+window.onload = loadDefault;
 
 document.getElementById('form').addEventListener('submit', e => {
     e.preventDefault();

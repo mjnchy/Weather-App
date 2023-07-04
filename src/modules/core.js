@@ -1,4 +1,5 @@
 const key = "6f8ce6b5eba440609be174223231106";
+const history = {};
 
 async function getStats (input, callback) {
     const location = input;
@@ -8,7 +9,7 @@ async function getStats (input, callback) {
     else {
         const response = await fetch(queryStr);
         const json = await response.json();
-        console.log(json);
+        history[json.location.name] = json;
         callback && callback(json);
     };
 };

@@ -1,7 +1,6 @@
-import { tempUnit } from "./dom";
-import { convert, setNewActive, set_New_Breakdown } from "./dom2";
 import {getStats} from "./core";
-import { displayStats, displayLocation, displayForecast } from "./dom";
+import { tempUnit, displayStats, displayLocation, displayForecast } from "./dom";
+import { convert, setNewActive, set_New_Breakdown, setBackground } from "./dom2";
 
 function loadStats (input) {
     getStats(input, resolve => {
@@ -15,6 +14,11 @@ function loadStats (input) {
 function loadPage () {
     const input = document.getElementById('search-input').value;
     loadStats(input);
+};
+
+function loadDefault () {
+    loadStats('london');
+    setBackground();
 };
 
 function event (e) {
@@ -33,4 +37,4 @@ function event (e) {
     };
 };
 
-export { loadStats, loadPage, event };
+export { loadDefault, loadPage, event };
